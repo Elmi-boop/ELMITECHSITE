@@ -1,0 +1,24 @@
+{
+  "title": "HP EliteBook 840 G6",
+  "slug": "hp-elitebook-840-g6",
+  "featured": true,
+  "brand": "HP",
+  "category": "Laptop",
+  "condition": "",
+  "price": "",
+  "priceLabel": "Ask us for today’s price",
+  "description": "A capable, lightweight laptop for work, study and creative projects.",
+  "images": ["../../assets/hp-elitebook-840-g6.jpg"],
+  "specifications": {
+    "processor": "Intel Core i7-8565U (8th gen, 4 cores / 8 threads, up to 4.6 GHz)",
+    "memory": "16GB DDR4 (2 SODIMM slots, upgradable up to 32GB)",
+    "storage": "512GB NVMe SSD (M.2, replaceable)",
+    "display": "14-inch Full HD IPS (1920 × 1080); touchscreen/privacy screen vary by unit",
+    "graphics": "Intel UHD 620 integrated graphics",
+    "weight": "About 1.5 kg",
+    "battery": "50Wh; roughly 8–10 hours of light use (varies by unit and usage)",
+    "ports": "2× USB-A 3.1, USB-C with Thunderbolt 3, HDMI, headphone/mic; SmartCard reader, SIM slot and docking connector vary by unit"
+  },
+  "whatsappNumber": "254729111898",
+  "status": "available"
+}
