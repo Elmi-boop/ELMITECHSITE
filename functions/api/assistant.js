@@ -1,4 +1,4 @@
-const MODEL = '@cf/zai-org/glm-4.7-flash';
+const MODEL = '@cf/meta/llama-3.2-3b-instruct';
 const MAX_BODY_BYTES = 12_000;
 const MAX_MESSAGE_CHARS = 600;
 const AI_TIMEOUT_MS = 10_000;
@@ -175,7 +175,7 @@ export async function onRequestPost({ request, env }) {
     const result = await Promise.race([
       env.AI.run(MODEL, {
         messages: [{ role: 'system', content: system }, ...messages],
-        max_completion_tokens: 240,
+        max_tokens: 240,
         temperature: 0.45
       }),
       new Promise((resolve) => setTimeout(() => resolve(timedOut), AI_TIMEOUT_MS))
