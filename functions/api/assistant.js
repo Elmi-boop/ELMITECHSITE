@@ -65,6 +65,47 @@ function cleanHistory(messages) {
   });
 }
 
+function localAnswer(question, language) {
+  const q = question.toLowerCase();
+  const isSwahili = language === 'sw';
+  const isSomali = language === 'so';
+  const say = (en, sw, so) => isSwahili ? sw : isSomali ? so : en;
+
+  if (/\b(hi|hello|hey|habari|salaam|asc|iska warran)\b/.test(q)) {
+    return say(
+      'Hi! I’m Elmitech AI. Tell me what you want to use a laptop for, and I’ll help you check the listed HP EliteBook against your needs.',
+      'Habari! Mimi ni Elmitech AI. Niambie unataka kutumia laptop kwa kazi gani, nami nitakusaidia kulinganisha na HP EliteBook iliyoorodheshwa.',
+      'Salaan! Waxaan ahay Elmitech AI. Ii sheeg waxa aad laptop-ka u adeegsanayso, waxaanan kaa caawin doonaa inaad la barbar dhigto HP EliteBook-ka bogga ku qoran.'
+    );
+  }
+  if (/price|cost|how much|bei|ghar|qiimo/.test(q)) {
+    return say(
+      'I don’t have a confirmed price on the site. Please ask the Elmitech team on WhatsApp: https://wa.me/254729111898.',
+      'Bei iliyothibitishwa haijawekwa kwenye tovuti. Tafadhali uliza timu ya Elmitech kupitia WhatsApp: https://wa.me/254729111898.',
+      'Qiime la xaqiijiyey kuma jiro bogga. Fadlan WhatsApp kala xiriir kooxda Elmitech: https://wa.me/254729111898.'
+    );
+  }
+  if (/video edit|editing|edit videos|premiere|davinci|capcut/.test(q)) {
+    return say(
+      'The listed HP EliteBook 840 G6 has an i7-8565U, 16GB RAM, and integrated Intel UHD 620 graphics. It can handle light editing, but the integrated graphics and older processor may feel limiting for demanding or long video projects. Tell me which editor and video resolution you use, or ask us on WhatsApp for advice.',
+      'HP EliteBook 840 G6 iliyoorodheshwa ina i7-8565U, RAM ya 16GB, na michoro jumuishi ya Intel UHD 620. Inaweza kufanya uhariri mwepesi, lakini michoro jumuishi na kichakataji cha zamani vinaweza kupunguza kasi kwenye miradi mikubwa. Niambie programu na ubora wa video unaotumia, au uliza ushauri WhatsApp.',
+      'HP EliteBook 840 G6 ee bogga ku qoran wuxuu leeyahay i7-8565U, 16GB RAM, iyo Intel UHD 620 graphics oo ku dhex jira. Wuxuu qaban karaa tafatir fudud, laakiin graphics-ka iyo processor-ka duugga ah waxay ku adkaan karaan mashaariicda culus. Ii sheeg app-ka iyo tayada muuqaalka aad isticmaasho, ama WhatsApp nagala soo xiriir.'
+    );
+  }
+  if (/processor|cpu|i7|spec|ram|memory|storage|ssd|screen|display|port|weight|battery|graphics|processor/.test(q)) {
+    return say(
+      'The listed HP EliteBook 840 G6 has an Intel Core i7-8565U, 16GB DDR4 RAM, 512GB NVMe SSD, 14-inch Full HD IPS display, and Intel UHD 620 integrated graphics. The listed details also include Thunderbolt 3 over USB-C, HDMI, and two USB-A ports.',
+      'HP EliteBook 840 G6 iliyoorodheshwa ina Intel Core i7-8565U, RAM ya 16GB DDR4, SSD ya 512GB NVMe, skrini ya inchi 14 Full HD IPS, na Intel UHD 620. Pia ina Thunderbolt 3 kupitia USB-C, HDMI, na milango miwili ya USB-A.',
+      'HP EliteBook 840 G6 ee bogga ku qoran wuxuu leeyahay Intel Core i7-8565U, 16GB DDR4 RAM, 512GB NVMe SSD, shaashad 14-inch Full HD IPS, iyo Intel UHD 620. Waxa kale oo ku jira Thunderbolt 3 oo USB-C ah, HDMI, iyo laba USB-A.'
+    );
+  }
+  return say(
+    'I’m having trouble reaching the AI service right now. I can confirm the listed laptop details, but for other tech questions please try again shortly or message the Elmitech team on WhatsApp: https://wa.me/254729111898.',
+    'Kwa sasa nina shida kuunganishwa na huduma ya AI. Naweza kuthibitisha maelezo ya laptop iliyoorodheshwa; kwa maswali mengine jaribu tena baadaye au tuma ujumbe kwa Elmitech WhatsApp: https://wa.me/254729111898.',
+    'Hadda dhibaato ayaa iga haysata adeegga AI. Waxaan xaqiijin karaa faahfaahinta laptop-ka bogga ku qoran; su’aalaha kale mar kale isku day ama WhatsApp kala xiriir Elmitech: https://wa.me/254729111898.'
+  );
+}
+
 export async function onRequestPost({ request, env }) {
   const origin = request.headers.get('origin');
   if (origin) {
@@ -138,12 +179,12 @@ export async function onRequestPost({ request, env }) {
         keys: result && typeof result === 'object' ? Object.keys(result) : [],
         errors: modelErrors || undefined
       }));
-      return json({ error: 'empty_response' }, 502);
+      return json({ answer: localAnswer(messages[messages.length - 1].content, requestedLanguage), fallback: true });
     }
     return json({ answer });
   } catch (error) {
     console.error('Elmitech AI request failed', error?.message || 'unknown error');
-    return json({ error: 'assistant_unavailable' }, 502);
+    return json({ answer: localAnswer(messages[messages.length - 1].content, requestedLanguage), fallback: true });
   }
 }
 
