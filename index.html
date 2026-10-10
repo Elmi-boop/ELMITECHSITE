@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assistant.css">
 </head>
 <body>
   <div class="announcement"><span class="status-dot"></span><span data-i18n="announcement">Useful tech. Honest guidance. Local support.</span><a href="#shop" data-i18n="browse">Browse laptops <span aria-hidden="true">↗</span></a></div>
@@ -41,9 +42,22 @@
     <section class="contact-section" id="contact"><div class="contact-inner section-wrap"><div><div class="eyebrow eyebrow-light"><span class="eyebrow-line"></span><span data-i18n="contactEyebrow">LET’S MAKE TECH WORK FOR YOU</span></div><h2 data-i18n="contactTitle">A question?<br><em>We’re right here.</em></h2></div><div class="contact-actions"><a class="contact-action whatsapp-link" href="https://wa.me/254729111898" target="_blank" rel="noreferrer"><span class="contact-action-icon">◉</span><span><small data-i18n="chatOn">CHAT ON WHATSAPP</small><strong>+254 729 111 898</strong></span><span class="contact-arrow">↗</span></a><a class="contact-action" href="mailto:Elmitechs@gmail.com"><span class="contact-action-icon">✉</span><span><small data-i18n="emailUs">EMAIL US</small><strong>Elmitechs@gmail.com</strong></span><span class="contact-arrow">↗</span></a></div></div></section>
   </main>
   <footer class="site-footer" id="about"><div class="footer-main section-wrap"><a class="brand brand-footer" href="#home"><img src="assets/elmitech-logo.jpeg" alt=""><span>elmi<span>tech</span><small data-i18n="footerTag">Empowering Your Digital Tech in One Click</small></span></a><p data-i18n="footerText">Good technology should make everyday life a little easier. That’s what we’re here for.</p><div class="footer-nav"><a href="#shop" data-i18n="navShop">Shop</a><a href="#learn" data-i18n="navLearn">Learn</a><a href="#contact" data-i18n="navContact">Contact</a></div></div><div class="footer-bottom section-wrap"><span>© <span id="year"></span> ELMITECH. <span data-i18n="rights">ALL RIGHTS RESERVED.</span></span><span>EMPOWERING YOUR DIGITAL TECH IN ONE CLICK <b>✳</b></span><a href="#home" data-i18n="backTop">BACK TO TOP ↑</a></div></footer>
+  <section class="assistant" aria-label="Elmitech AI assistant">
+    <div class="assistant-panel" id="assistant-panel" aria-labelledby="assistant-title" hidden>
+      <div class="assistant-header"><span class="assistant-mark" aria-hidden="true">e</span><div><strong id="assistant-title">Elmitech AI</strong><small data-assistant-copy="subtitle">Friendly tech help · AI assistant</small></div><button class="assistant-close" type="button" aria-label="Close chat">×</button></div>
+      <div class="assistant-disclosure" data-assistant-copy="disclosure">I’m Elmitech’s AI assistant. I can help with listed laptops and everyday tech questions. Prices and stock need human confirmation.</div>
+      <div class="assistant-messages" id="assistant-messages" aria-live="polite" aria-relevant="additions text"></div>
+      <div class="assistant-prompts" id="assistant-prompts"><button type="button" data-prompt="Help me choose a laptop">Help me choose</button><button type="button" data-prompt="Is the HP EliteBook 840 G6 good for video editing?">Video editing?</button></div>
+      <form class="assistant-form" id="assistant-form"><label class="sr-only" for="assistant-input" data-assistant-copy="inputLabel">Ask Elmitech AI</label><input id="assistant-input" name="message" maxlength="600" autocomplete="off" placeholder="Ask me anything about tech…" required><button type="submit" aria-label="Send message">↑</button></form>
+      <div class="assistant-foot"><span data-assistant-copy="privacy">Please don’t share passwords or payment details.</span><a href="https://wa.me/254729111898" target="_blank" rel="noreferrer" data-assistant-copy="human">Talk to our team ↗</a></div>
+    </div>
+    <button class="assistant-launcher" id="assistant-launcher" type="button" aria-expanded="false" aria-controls="assistant-panel"><span class="assistant-launcher-icon" aria-hidden="true">✳</span><span data-assistant-copy="open">Ask Elmitech AI</span></button>
+  </section>
   <script src="script.js"></script>
+  <script src="assistant.js"></script>
 </body>
 </html>
+
 
 
 
