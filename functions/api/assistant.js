@@ -16,6 +16,23 @@ function safeText(value, limit = 240) {
   return String(value ?? '').replace(/[<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, limit);
 }
 
+function extractModelText(value, depth = 0) {
+  if (typeof value === 'string') return value.trim();
+  if (depth > 4 || !value || typeof value !== 'object') return '';
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const text = extractModelText(item, depth + 1);
+      if (text) return text;
+    }
+    return '';
+  }
+  for (const key of ['response', 'output_text', 'answer', 'content', 'text', 'generated_text', 'choices', 'result', 'results', 'output', 'completion', 'message', 'delta']) {
+    const text = extractModelText(value[key], depth + 1);
+    if (text) return text;
+  }
+  return '';
+}
+
 function productFacts() {
   const specs = {
     processor: 'Intel Core i7-8565U', memory: '16GB DDR4', storage: '512GB NVMe SSD',
@@ -112,12 +129,17 @@ export async function onRequestPost({ request, env }) {
     });
     // Chat models can return either Workers AI's legacy `response` field or
     // the OpenAI-style `choices[0].message.content` shape.
-    const candidate =
-      typeof result?.response === 'string'
-        ? result.response
-        : result?.choices?.[0]?.message?.content ?? result?.choices?.[0]?.text ?? '';
-    const answer = typeof candidate === 'string' ? candidate.trim() : '';
-    if (!answer) return json({ error: 'empty_response' }, 502);
+    const answer = extractModelText(result);
+    if (!answer) {
+      const modelErrors = Array.isArray(result?.errors)
+        ? result.errors.map((item) => safeText(item?.message || item, 180)).filter(Boolean).join('; ')
+        : '';
+      console.error('Elmitech AI returned no text', JSON.stringify({
+        keys: result && typeof result === 'object' ? Object.keys(result) : [],
+        errors: modelErrors || undefined
+      }));
+      return json({ error: 'empty_response' }, 502);
+    }
     return json({ answer });
   } catch (error) {
     console.error('Elmitech AI request failed', error?.message || 'unknown error');
