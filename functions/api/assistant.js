@@ -110,7 +110,13 @@ export async function onRequestPost({ request, env }) {
       max_tokens: 240,
       temperature: 0.45
     });
-    const answer = typeof result?.response === 'string' ? result.response.trim() : '';
+    // Chat models can return either Workers AI's legacy `response` field or
+    // the OpenAI-style `choices[0].message.content` shape.
+    const candidate =
+      typeof result?.response === 'string'
+        ? result.response
+        : result?.choices?.[0]?.message?.content ?? result?.choices?.[0]?.text ?? '';
+    const answer = typeof candidate === 'string' ? candidate.trim() : '';
     if (!answer) return json({ error: 'empty_response' }, 502);
     return json({ answer });
   } catch (error) {
