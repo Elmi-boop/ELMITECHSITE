@@ -79,7 +79,7 @@ function localAnswer(question, language) {
       'Salaan! Waxaan ahay Elmitech AI. Ii sheeg waxa aad laptop-ka u adeegsanayso, waxaanan kaa caawin doonaa inaad la barbar dhigto HP EliteBook-ka bogga ku qoran.'
     );
   }
-  if (/price|cost|how much|bei|ghar|qiimo/.test(q)) {
+  if (/price|cost|how much is (?:the|this|it)|how much does (?:it|the laptop|this laptop) cost|bei|ghar|qiimo/.test(q)) {
     return say(
       'I don’t have a confirmed price on the site. Please ask the Elmitech team on WhatsApp: https://wa.me/254729111898.',
       'Bei iliyothibitishwa haijawekwa kwenye tovuti. Tafadhali uliza timu ya Elmitech kupitia WhatsApp: https://wa.me/254729111898.',
@@ -91,6 +91,13 @@ function localAnswer(question, language) {
       'The listed HP EliteBook 840 G6 has an i7-8565U, 16GB RAM, and integrated Intel UHD 620 graphics. It can handle light editing, but the integrated graphics and older processor may feel limiting for demanding or long video projects. Tell me which editor and video resolution you use, or ask us on WhatsApp for advice.',
       'HP EliteBook 840 G6 iliyoorodheshwa ina i7-8565U, RAM ya 16GB, na michoro jumuishi ya Intel UHD 620. Inaweza kufanya uhariri mwepesi, lakini michoro jumuishi na kichakataji cha zamani vinaweza kupunguza kasi kwenye miradi mikubwa. Niambie programu na ubora wa video unaotumia, au uliza ushauri WhatsApp.',
       'HP EliteBook 840 G6 ee bogga ku qoran wuxuu leeyahay i7-8565U, 16GB RAM, iyo Intel UHD 620 graphics oo ku dhex jira. Wuxuu qaban karaa tafatir fudud, laakiin graphics-ka iyo processor-ka duugga ah waxay ku adkaan karaan mashaariicda culus. Ii sheeg app-ka iyo tayada muuqaalka aad isticmaasho, ama WhatsApp nagala soo xiriir.'
+    );
+  }
+  if (/\bram\b|memory/.test(q)) {
+    return say(
+      'RAM is the laptop’s short-term working memory, used by open apps and tasks. This HP EliteBook has 16GB DDR4 RAM, which is suitable for everyday work, study, and moderate multitasking.',
+      'RAM ni kumbukumbu ya muda mfupi inayotumiwa na programu na kazi zilizo wazi. HP EliteBook hii ina RAM ya 16GB DDR4, inayofaa kwa kazi za kawaida, masomo, na kutumia programu kadhaa kwa wakati mmoja.',
+      'RAM waa xusuusta ku-meelgaarka ah ee laptop-ku u isticmaalo apps-ka iyo hawlaha furan. HP EliteBook-kan wuxuu leeyahay 16GB DDR4 RAM, taas oo ku habboon shaqada maalinlaha ah, waxbarashada, iyo hawlo badan oo isku mar socda.'
     );
   }
   if (/help me choose|choose a laptop|recommend.*laptop|which laptop|what laptop|need a laptop/.test(q)) {
