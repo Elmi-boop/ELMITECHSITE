@@ -92,6 +92,13 @@ function localAnswer(question, language) {
       'HP EliteBook 840 G6 ee bogga ku qoran wuxuu leeyahay i7-8565U, 16GB RAM, iyo Intel UHD 620 graphics oo ku dhex jira. Wuxuu qaban karaa tafatir fudud, laakiin graphics-ka iyo processor-ka duugga ah waxay ku adkaan karaan mashaariicda culus. Ii sheeg app-ka iyo tayada muuqaalka aad isticmaasho, ama WhatsApp nagala soo xiriir.'
     );
   }
+  if (/help me choose|choose a laptop|recommend.*laptop|which laptop|what laptop|need a laptop/.test(q)) {
+    return say(
+      'Sure. What will you mainly use it for—study, office work, browsing, or video editing—and what is your budget? Elmitech currently lists one laptop, the HP EliteBook 840 G6 (i7, 16GB RAM, 512GB SSD). Once I know your needs, I can tell you honestly whether its specs are a fit.',
+      'Sawa. Utaitumia zaidi kwa nini—masomo, kazi ya ofisini, kuvinjari, au kuhariri video—na bajeti yako ni kiasi gani? Kwa sasa Elmitech imeorodhesha laptop moja, HP EliteBook 840 G6 (i7, RAM ya 16GB, SSD ya 512GB). Nikijua mahitaji yako, nitakuambia kwa ukweli kama inakufaa.',
+      'Hagaag. Maxaad ugu badan u isticmaali doontaa—waxbarasho, shaqo xafiis, internet, mise tafatirka muuqaalka—miisaaniyaddaaduna waa imisa? Hadda Elmitech wuxuu ku qoranyahay hal laptop, HP EliteBook 840 G6 (i7, 16GB RAM, 512GB SSD). Markaan baahidaada ogaado, si daacad ah ayaan kuugu sheegi karaa inuu kugu habboon yahay.'
+    );
+  }
   if (/processor|cpu|i7|spec|ram|memory|storage|ssd|screen|display|port|weight|battery|graphics|processor/.test(q)) {
     return say(
       'The listed HP EliteBook 840 G6 has an Intel Core i7-8565U, 16GB DDR4 RAM, 512GB NVMe SSD, 14-inch Full HD IPS display, and Intel UHD 620 integrated graphics. The listed details also include Thunderbolt 3 over USB-C, HDMI, and two USB-A ports.',
@@ -165,7 +172,7 @@ export async function onRequestPost({ request, env }) {
   try {
     const result = await env.AI.run(MODEL, {
       messages: [{ role: 'system', content: system }, ...messages],
-      max_tokens: 240,
+      max_completion_tokens: 240,
       temperature: 0.45
     });
     // Chat models can return either Workers AI's legacy `response` field or
