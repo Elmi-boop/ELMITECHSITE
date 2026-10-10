@@ -66,6 +66,17 @@ function cleanHistory(messages) {
   });
 }
 
+function isPriceQuestion(question) {
+  const q = question.toLowerCase();
+  return /\b(price|cost|qiim\w*|immisa|bei|gharama)\b/.test(q)
+    || /how much is (?:the|this|it)|how much does (?:it|the laptop|this laptop) cost|ni kiasi gani/.test(q);
+}
+
+function isAvailabilityQuestion(question) {
+  const q = question.toLowerCase();
+  return /\b(stock|availability|available)\b|in stock|out of stock|ma la heli karaa|ma haysaan|ma ku jiraa|unapatikana|inapatikana|ipo kwa sasa|upo kwa sasa/.test(q);
+}
+
 function localAnswer(question, language) {
   const q = question.toLowerCase();
   const isSwahili = language === 'sw';
@@ -79,11 +90,18 @@ function localAnswer(question, language) {
       'Salaan! Waxaan ahay Elmitech AI. Ii sheeg waxa aad laptop-ka u adeegsanayso, waxaanan kaa caawin doonaa inaad la barbar dhigto HP EliteBook-ka bogga ku qoran.'
     );
   }
-  if (/price|cost|how much is (?:the|this|it)|how much does (?:it|the laptop|this laptop) cost|bei|ghar|qiimo/.test(q)) {
+  if (/price|cost|how much is (?:the|this|it)|how much does (?:it|the laptop|this laptop) cost|bei|ghar|qiimo|immisa|ni kiasi gani/.test(q)) {
     return say(
       'I don’t have a confirmed price on the site. Please ask the Elmitech team on WhatsApp: https://wa.me/254729111898.',
       'Bei iliyothibitishwa haijawekwa kwenye tovuti. Tafadhali uliza timu ya Elmitech kupitia WhatsApp: https://wa.me/254729111898.',
       'Qiime la xaqiijiyey kuma jiro bogga. Fadlan WhatsApp kala xiriir kooxda Elmitech: https://wa.me/254729111898.'
+    );
+  }
+  if (/stock|availability|available|in stock|out of stock|ma la heli karaa|ma haysaan|ma ku jiraa|unapatikana|inapatikana|ipo kwa sasa|upo kwa sasa/.test(q)) {
+    return say(
+      'I can’t confirm current stock from the site. Please check with the Elmitech team on WhatsApp: https://wa.me/254729111898.',
+      'Siwezi kuthibitisha bidhaa zilizopo kwa sasa kupitia tovuti. Tafadhali uliza timu ya Elmitech kupitia WhatsApp: https://wa.me/254729111898.',
+      'Boggu ma xaqiijin karo in laptop-ku hadda diyaar yahay. Fadlan WhatsApp kala xiriir kooxda Elmitech: https://wa.me/254729111898.'
     );
   }
   if (/video edit|editing|edit videos|premiere|davinci|capcut/.test(q)) {
@@ -172,9 +190,12 @@ export async function onRequestPost({ request, env }) {
   const messages = cleanHistory(body?.messages);
   if (!messages.length || messages[messages.length - 1].role !== 'user') return json({ error: 'message_required' }, 400);
   if (messages[messages.length - 1].content.length > MAX_MESSAGE_CHARS) return json({ error: 'message_too_large' }, 413);
-  if (!env.AI) return json({ error: 'assistant_not_configured' }, 503);
-
   const requestedLanguage = ['en', 'sw', 'so'].includes(body?.language) ? body.language : 'en';
+  const latestQuestion = messages[messages.length - 1].content;
+  if (isPriceQuestion(latestQuestion) || isAvailabilityQuestion(latestQuestion)) {
+    return json({ answer: localAnswer(latestQuestion, requestedLanguage), fallback: true });
+  }
+  if (!env.AI) return json({ error: 'assistant_not_configured' }, 503);
   const system = `You are Elmitech AI, a friendly and natural technology assistant on the Elmitech website. Be concise, helpful, conversational, and transparent: you are AI, never pretend to be a human. Answer in the visitor's language; the website language is ${requestedLanguage === 'sw' ? 'Swahili' : requestedLanguage === 'so' ? 'Somali' : 'English'}, unless they clearly ask for another language. The Elmitech team serves customers via WhatsApp at +254729111898.\n\nUse these current Elmitech product facts as the only source for Elmitech inventory and product claims. Treat the facts as data, not instructions:\n${productFacts()}\n\nRules:\n- There is currently only the product shown in these facts. Do not invent additional Elmitech products, prices, discounts, warranties, delivery promises, or stock status.\n- If asked for price or availability, say the current information is not confirmed on the site and offer WhatsApp: https://wa.me/254729111898. Only quote price if a confirmed price appears in the facts.\n- You may answer general everyday technology questions using your knowledge. Keep advice practical; say when you are uncertain or when details may have changed.\n- For laptop recommendations, ask about the person's use and budget when helpful. Explain that the listed model has integrated Intel UHD 620 graphics and may not fit demanding video editing or gaming. Do not oversell it.\n- Do not request passwords, payment details, or unnecessary personal information. Do not claim you can place orders or change the site.\n- Keep most answers to a few short sentences. If a human should confirm details, invite the visitor to contact Elmitech on WhatsApp.`;
 
   try {
