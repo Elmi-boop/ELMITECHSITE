@@ -1,4 +1,4 @@
-const MODEL = '@cf/meta/llama-3.2-3b-instruct';
+const MODEL = '@cf/qwen/qwen3-30b-a3b-fp8';
 const MAX_BODY_BYTES = 12_000;
 const MAX_MESSAGE_CHARS = 600;
 const AI_TIMEOUT_MS = 10_000;
