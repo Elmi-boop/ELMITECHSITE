@@ -75,7 +75,7 @@ function cleanHistory(messages) {
 
 function isPriceQuestion(question) {
   const q = question.toLowerCase();
-  return /\b(price|cost|qiim\w*|immisa|bei|gharama)\b/.test(q)
+  return /\b(price|cost|qiim\w*|imisa|immisa|meeqa|bei|gharama)\b/.test(q)
     || /how much is (?:the|this|it)|how much does (?:it|the laptop|this laptop) cost|ni kiasi gani/.test(q);
 }
 
