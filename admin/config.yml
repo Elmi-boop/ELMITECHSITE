@@ -1,6 +1,6 @@
 backend:
   name: turbo-github
-  turbo_site_id: PENDING_SITE_ID
+  turbo_site_id: e27ddfa8-72db-4783-84ac-1d854efa4c79
   branch: main
 
 media_folder: "assets/uploads"
