@@ -121,7 +121,7 @@ function localAnswer(question, language, products = []) {
       'Boggu ma xaqiijin karo in laptop-ku hadda diyaar yahay. Fadlan WhatsApp kala xiriir kooxda Elmitech: https://wa.me/254729111898.'
     );
   }
-  if (/video edit|editing|edit videos|premiere|davinci|capcut/.test(q)) {
+  if (/video edit|editing|edit videos|premiere|davinci|capcut|tafatir|fiidiyow|muuqaal/.test(q)) {
     return say(
       'The listed HP EliteBook 840 G6 has an i7-8565U, 16GB RAM, and integrated Intel UHD 620 graphics. It can handle light editing, but the integrated graphics and older processor may feel limiting for demanding or long video projects. Tell me which editor and video resolution you use, or ask us on WhatsApp for advice.',
       'HP EliteBook 840 G6 iliyoorodheshwa ina i7-8565U, RAM ya 16GB, na michoro jumuishi ya Intel UHD 620. Inaweza kufanya uhariri mwepesi, lakini michoro jumuishi na kichakataji cha zamani vinaweza kupunguza kasi kwenye miradi mikubwa. Niambie programu na ubora wa video unaotumia, au uliza ushauri WhatsApp.',
@@ -135,14 +135,14 @@ function localAnswer(question, language, products = []) {
       'RAM waa xusuusta ku-meelgaarka ah ee laptop-ku u isticmaalo apps-ka iyo hawlaha furan. HP EliteBook-kan wuxuu leeyahay 16GB DDR4 RAM, taas oo ku habboon shaqada maalinlaha ah, waxbarashada, iyo hawlo badan oo isku mar socda.'
     );
   }
-  if (/help me choose|choose a laptop|recommend.*laptop|which laptop|what laptop|need a laptop/.test(q)) {
+  if (/help me choose|choose a laptop|recommend.*laptop|which laptop|what laptop|need a laptop|doorashada|dooran|miisaaniyad|waxbarasho|arday|shaqo|ganacsi|isticmaal|ku fiican/.test(q)) {
     return say(
       'Sure. What will you mainly use it for—study, office work, browsing, or video editing—and what is your budget? Elmitech currently lists one laptop, the HP EliteBook 840 G6 (i7, 16GB RAM, 512GB SSD). Once I know your needs, I can tell you honestly whether its specs are a fit.',
       'Sawa. Utaitumia zaidi kwa nini—masomo, kazi ya ofisini, kuvinjari, au kuhariri video—na bajeti yako ni kiasi gani? Kwa sasa Elmitech imeorodhesha laptop moja, HP EliteBook 840 G6 (i7, RAM ya 16GB, SSD ya 512GB). Nikijua mahitaji yako, nitakuambia kwa ukweli kama inakufaa.',
       'Hagaag. Maxaad ugu badan u isticmaali doontaa—waxbarasho, shaqo xafiis, internet, mise tafatirka muuqaalka—miisaaniyaddaaduna waa imisa? Hadda Elmitech wuxuu ku qoranyahay hal laptop, HP EliteBook 840 G6 (i7, 16GB RAM, 512GB SSD). Markaan baahidaada ogaado, si daacad ah ayaan kuugu sheegi karaa inuu kugu habboon yahay.'
     );
   }
-  if (/processor|cpu|i7|spec|ram|memory|storage|ssd|screen|display|port|weight|battery|graphics|processor/.test(q)) {
+  if (/processor|cpu|i7|spec|ram|memory|storage|ssd|screen|display|port|weight|battery|graphics|faahfaahin|xusuus|shaashad|kaydin|batar|miisaan/.test(q)) {
     return say(
       'The listed HP EliteBook 840 G6 has an Intel Core i7-8565U, 16GB DDR4 RAM, 512GB NVMe SSD, 14-inch Full HD IPS display, and Intel UHD 620 integrated graphics. The listed details also include Thunderbolt 3 over USB-C, HDMI, and two USB-A ports.',
       'HP EliteBook 840 G6 iliyoorodheshwa ina Intel Core i7-8565U, RAM ya 16GB DDR4, SSD ya 512GB NVMe, skrini ya inchi 14 Full HD IPS, na Intel UHD 620. Pia ina Thunderbolt 3 kupitia USB-C, HDMI, na milango miwili ya USB-A.',
@@ -211,6 +211,10 @@ export async function onRequestPost(context) {
   const requestedLanguage = ['en', 'sw', 'so'].includes(body?.language) ? body.language : 'en';
   const latestQuestion = messages[messages.length - 1].content;
   const products = await readProducts(context);
+  const somaliBusinessQuestion = /video edit|editing|edit videos|premiere|davinci|capcut|tafatir|fiidiyow|muuqaal|help me choose|choose a laptop|recommend.*laptop|which laptop|what laptop|need a laptop|doorashada|dooran|miisaaniyad|waxbarasho|arday|shaqo|ganacsi|isticmaal|ku fiican|processor|cpu|i7|spec|ram|memory|storage|ssd|screen|display|port|weight|battery|graphics|faahfaahin|xusuus|shaashad|kaydin|batar|miisaan/.test(latestQuestion.toLowerCase());
+  if (requestedLanguage === 'so' && somaliBusinessQuestion) {
+    return json({ answer: localAnswer(latestQuestion, requestedLanguage, products), fallback: true });
+  }
   if (isPriceQuestion(latestQuestion) || isAvailabilityQuestion(latestQuestion)) {
     return json({ answer: localAnswer(latestQuestion, requestedLanguage, products), fallback: true });
   }
