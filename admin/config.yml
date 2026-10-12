@@ -1,0 +1,106 @@
+backend:
+  name: turbo-github
+  turbo_site_id: PENDING_SITE_ID
+  branch: main
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+locale: "en"
+publish_mode: simple
+
+collections:
+  - name: products
+    label: Laptops & equipment
+    files:
+      - name: inventory
+        label: Laptop and equipment listings
+        file: content/products.json
+        fields:
+          - label: Listings
+            name: products
+            widget: list
+            summary: "{{fields.name}} — {{fields.status}}"
+            fields:
+              - { label: Product name, name: name, widget: string }
+              - { label: Web address name (lowercase, use dashes), name: slug, widget: string }
+              - { label: Show as featured on the home page, name: featured, widget: boolean, default: false }
+              - { label: Publish on the site, name: published, widget: boolean, default: true }
+              - { label: Brand, name: brand, widget: string, default: HP }
+              - { label: Category, name: category, widget: select, options: [Laptop, Desktop, Monitor, Accessory, Other] }
+              - { label: Condition, name: condition, widget: select, options: [Refurbished, New], default: Refurbished }
+              - { label: Price in KSh (digits only; leave empty to ask on WhatsApp), name: price, widget: string, required: false }
+              - { label: Price message, name: priceLabel, widget: string, default: "Ask us for today’s price" }
+              - { label: Description in English, name: description, widget: text }
+              - { label: Description in Kiswahili, name: descriptionSw, widget: text, required: false }
+              - { label: Description in Somali, name: descriptionSo, widget: text, required: false }
+              - label: Photos
+                name: images
+                widget: list
+                required: false
+                field: { label: Photo, name: image, widget: image }
+              - label: Specifications
+                name: specifications
+                widget: object
+                fields:
+                  - { label: Processor, name: processor, widget: string, required: false }
+                  - { label: Memory, name: memory, widget: string, required: false }
+                  - { label: Storage, name: storage, widget: string, required: false }
+                  - { label: Display, name: display, widget: string, required: false }
+                  - { label: Graphics, name: graphics, widget: string, required: false }
+                  - { label: Weight, name: weight, widget: string, required: false }
+                  - { label: Battery, name: battery, widget: string, required: false }
+                  - { label: Ports, name: ports, widget: text, required: false }
+              - { label: Warranty (state software-only coverage), name: warranty, widget: string, required: false }
+              - { label: Availability, name: status, widget: select, options: [available, sold, coming soon], default: available }
+
+  - name: articles
+    label: Tech articles and buying guides
+    files:
+      - name: articles_list
+        label: Articles and news
+        file: content/articles.json
+        fields:
+          - label: Articles
+            name: articles
+            widget: list
+            summary: "{{fields.title}} — {{fields.category}}"
+            fields:
+              - { label: Article title (English), name: title, widget: string }
+              - { label: Title (Kiswahili), name: titleSw, widget: string, required: false }
+              - { label: Title (Somali), name: titleSo, widget: string, required: false }
+              - { label: Short address name (lowercase, use dashes), name: slug, widget: string }
+              - { label: Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+              - { label: Category, name: category, widget: select, options: [Laptop buying guide, Laptop review, Tech news, Video editing, AI, Apps and software, Tech tips] }
+              - { label: Short summary (English), name: summary, widget: text }
+              - { label: Short summary (Kiswahili), name: summarySw, widget: text, required: false }
+              - { label: Short summary (Somali), name: summarySo, widget: text, required: false }
+              - { label: Cover photo, name: coverImage, widget: image, required: false }
+              - { label: Article text (English), name: body, widget: text }
+              - { label: Article text (Kiswahili), name: bodySw, widget: text, required: false }
+              - { label: Article text (Somali), name: bodySo, widget: text, required: false }
+              - { label: Publish on the site, name: published, widget: boolean, default: false }
+
+  - name: videos
+    label: YouTube videos and social posts
+    files:
+      - name: video_list
+        label: Videos and posts
+        file: content/videos.json
+        fields:
+          - label: Videos and posts
+            name: videos
+            widget: list
+            summary: "{{fields.title}} — {{fields.platform}}"
+            fields:
+              - { label: Video or post title (English), name: title, widget: string }
+              - { label: Title (Kiswahili), name: titleSw, widget: string, required: false }
+              - { label: Title (Somali), name: titleSo, widget: string, required: false }
+              - { label: Platform, name: platform, widget: select, options: [YouTube, Instagram, TikTok] }
+              - { label: Video or post link, name: url, widget: string }
+              - { label: Topic, name: topic, widget: string, required: false }
+              - { label: Short description (English), name: summary, widget: text, required: false }
+              - { label: Short description (Kiswahili), name: summarySw, widget: text, required: false }
+              - { label: Short description (Somali), name: summarySo, widget: text, required: false }
+              - { label: Thumbnail photo (optional), name: thumbnail, widget: image, required: false }
+              - { label: Publish on the site, name: published, widget: boolean, default: false }
+
