@@ -1,4 +1,69 @@
 {
-  "videos": []
+  "videos": [
+    {
+      "title": "How to Increase the Speed of Your Computer",
+      "titleSw": "Jinsi ya Kuongeza Kasi ya Kompyuta Yako",
+      "titleSo": "Sida loo dedejiyo kombiyuutarkaaga",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/watch?v=YlDkyzi1jU0",
+      "topic": "Computer performance",
+      "summary": "Practical steps to improve a slow computer. Watch the video for the exact instructions.",
+      "summarySw": "Hatua za vitendo za kuboresha kompyuta inayofanya kazi polepole. Tazama video kwa maelekezo.",
+      "summarySo": "Tallaabooyin wax ku ool ah oo lagu dedejinayo kombiyuutar gaabis ah. Daawo fiidiyowga si aad u aragto tilmaamaha.",
+      "thumbnail": "https://i.ytimg.com/vi/YlDkyzi1jU0/hqdefault.jpg",
+      "published": true
+    },
+    {
+      "title": "Laptop-kan HA IIBSAN! HDD vs SSD (Sida lagu ogaado 2026)",
+      "titleSw": "Usinunue Laptop Hii! HDD dhidi ya SSD",
+      "titleSo": "Laptop-kan HA IIBSAN! HDD vs SSD (Sida lagu ogaado 2026)",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/watch?v=cEMReWm-Mxc",
+      "topic": "Laptop buying guide",
+      "summary": "A Somali-language guide to HDD and SSD storage, with checks to make before buying a laptop.",
+      "summarySw": "Mwongozo wa Kisomali kuhusu HDD na SSD, pamoja na mambo ya kukagua kabla ya kununua laptop.",
+      "summarySo": "Hagaha HDD iyo SSD oo af-Soomaali ah, iyo waxyaabaha la hubinayo ka hor iibsashada laptop.",
+      "thumbnail": "https://i.ytimg.com/vi/cEMReWm-Mxc/hqdefault.jpg",
+      "published": true
+    },
+    {
+      "title": "How to Spot a Fake iPhone Screen or Battery",
+      "titleSw": "Jinsi ya Kutambua Skrini au Betri Bandia ya iPhone",
+      "titleSo": "Sida lagu ogaado shaashad ama baytari iPhone oo been abuur ah",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/watch?v=kf2TdKX5lNg",
+      "topic": "Phone tips",
+      "summary": "A Somali-language video about checking whether an iPhone screen or battery may be counterfeit.",
+      "summarySw": "Video ya Kisomali kuhusu kukagua ikiwa skrini au betri ya iPhone inaweza kuwa bandia.",
+      "summarySo": "Fiidiyow af-Soomaali ah oo ku saabsan sida loo hubiyo shaashad ama baytari iPhone oo laga yaabo inuu been abuur yahay.",
+      "thumbnail": "https://i.ytimg.com/vi/kf2TdKX5lNg/hqdefault.jpg",
+      "published": true
+    },
+    {
+      "title": "New or Refurbished Laptop: Which Is Better?",
+      "titleSw": "Laptop Mpya au Iliyorekebishwa: Ipi ni Bora?",
+      "titleSo": "Laptop cusub iyo mid refurbished ah—kee baa fiican?",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/watch?v=WcgiE_hnGHU",
+      "topic": "Laptop buying guide",
+      "summary": "A Somali-language comparison explaining what refurbished means and how to think about new versus refurbished laptops.",
+      "summarySw": "Ulinganisho wa Kisomali unaoeleza maana ya refurbished na jinsi ya kulinganisha laptop mpya na iliyorekebishwa.",
+      "summarySo": "Isbarbardhig af-Soomaali ah oo sharxaya refurbished iyo sida loo kala dooran karo laptop cusub iyo mid refurbished ah.",
+      "thumbnail": "https://i.ytimg.com/vi/WcgiE_hnGHU/hqdefault.jpg",
+      "published": true
+    },
+    {
+      "title": "How to Find and Turn On Your Laptop Keyboard Backlight",
+      "titleSw": "Jinsi ya Kupata na Kuwasha Mwangaza wa Kibodi ya Laptop",
+      "titleSo": "Sida loo helo loona shido iftiinka keyboard-ka laptop-ka",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/watch?v=tKz5eH0LK7w",
+      "topic": "Laptop tips",
+      "summary": "A Somali-language walkthrough for checking and switching on a laptop keyboard backlight.",
+      "summarySw": "Maelekezo ya Kisomali ya kukagua na kuwasha mwangaza wa kibodi ya laptop.",
+      "summarySo": "Tilmaamo af-Soomaali ah oo lagu hubinayo laguna shidayo iftiinka keyboard-ka laptop-ka.",
+      "thumbnail": "https://i.ytimg.com/vi/tKz5eH0LK7w/hqdefault.jpg",
+      "published": true
+    }
+  ]
 }
-
