@@ -11,4 +11,13 @@ document.getElementById('year').textContent=new Date().getFullYear();
 const menuToggle=document.querySelector('.menu-toggle'),mainNav=document.querySelector('.main-nav');menuToggle.addEventListener('click',()=>{const open=mainNav.classList.toggle('open');menuToggle.setAttribute('aria-expanded',String(open));menuToggle.setAttribute('aria-label',open?'Close navigation':'Open navigation')});
 mainNav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{mainNav.classList.remove('open');menuToggle.setAttribute('aria-expanded','false')}));
 
+// Load one shared publishing feed only on the site sections it populates.
+if (document.querySelector('.catalog-grid, .product-layout .product-card, .video-page-grid') || location.pathname.endsWith('/guides.html')) {
+  const contentScript = document.createElement('script');
+  contentScript.src = '/content-manager.js';
+  contentScript.defer = true;
+  document.head.append(contentScript);
+}
+
+
 
