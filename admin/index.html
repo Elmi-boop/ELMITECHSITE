@@ -6,24 +6,33 @@
   <meta name="theme-color" content="#171747">
   <title>Elmitech | Content Editor</title>
   <style>
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:#fbfaf7;color:#171747;font:15px/1.7 'DM Sans',Arial,sans-serif;display:grid;place-items:center;padding:24px}.setup-card{max-width:590px;background:#fff;border:1px solid #e9e8e3;padding:clamp(28px,6vw,52px);box-shadow:0 20px 70px #17174712}.brand{font:800 19px Arial,sans-serif;letter-spacing:-1px}.brand span{color:#293fe0}.tagline{font-size:9px;letter-spacing:.12em;color:#848496;margin:6px 0 32px}.eyebrow{font-size:10px;font-weight:bold;letter-spacing:.15em;color:#a4872d}.eyebrow:before{content:'';display:inline-block;width:23px;height:1px;background:#c3a02f;vertical-align:middle;margin-right:9px}h1{font-size:30px;letter-spacing:-1.5px;line-height:1.15;margin:14px 0}p{color:#68697c;font-size:13px}.steps{margin:20px 0 24px;padding-left:20px;color:#55566b;font-size:12px}.steps li{padding:5px 0}.site-link{display:inline-flex;background:#293fe0;color:#fff;text-decoration:none;padding:12px 16px;font-size:12px;font-weight:bold;margin-top:5px}.note{border-top:1px solid #eeede8;padding-top:17px;margin-top:25px!important;font-size:11px!important}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:#fbfaf7;color:#171747;font:16px/1.65 Arial,sans-serif}#cms{min-height:100vh}.setup{max-width:720px;margin:8vh auto;background:#fff;border:1px solid #e9e8e3;padding:clamp(26px,6vw,52px);box-shadow:0 18px 60px #17174712}.brand{font-weight:800;font-size:24px;letter-spacing:-1.5px}.brand span{color:#293fe0}.tag{font-size:11px;letter-spacing:.12em;color:#77798a;margin:6px 0 34px}.gold{color:#a4872d;font-weight:bold;font-size:12px;letter-spacing:.13em}h1{font-size:34px;letter-spacing:-1.3px;line-height:1.12;margin:14px 0}p,li{color:#606176}.link{display:inline-block;margin-top:14px;background:#293fe0;color:#fff;padding:13px 18px;text-decoration:none;font-weight:bold}.note{border-top:1px solid #eee;padding-top:18px;margin-top:28px;font-size:13px}
   </style>
 </head>
 <body>
-  <div id="local-help" class="setup-card" hidden>
+  <main id="setup" class="setup">
     <div class="brand">elmi<span>tech</span></div>
-    <div class="tagline">EMPOWERING YOUR DIGITAL TECH IN ONE CLICK</div>
-    <div class="eyebrow">EDITOR SETUP</div>
-    <h1>The Elmitech editor is not connected yet.</h1>
-    <p>The content editor needs a secure GitHub sign-in connection before it can be enabled. The public site can load independently while that connection is being completed.</p>
-    <ol class="steps">
-      <li>The Elmitech website now has its own dedicated GitHub repository.</li>
-      <li>Connect a hosting provider and finish secure sign-in for the editor.</li>
-      <li>Then use the website’s <strong>/admin/</strong> address to update content.</li>
-    </ol>
-    <a class="site-link" href="../index.html">Return to the Elmitech site preview <span aria-hidden="true"> ↗</span></a>
-    <p class="note">The editor setup is not complete yet.</p>
-  </div>
-  <script>document.getElementById('local-help').hidden = false;</script>
+    <div class="tag">EMPOWERING YOUR DIGITAL TECH IN ONE CLICK</div>
+    <div class="gold">ELMITECH PUBLISHING</div>
+    <h1>Your content editor is being connected.</h1>
+    <p>This editor will let you add or update laptop listings, tech articles, buying guides and YouTube videos. Published content will appear on the Elmitech website.</p>
+    <p>The editor needs one secure connection to the Elmitech GitHub repository before sign-in can be enabled. Do not enter your password or verification codes on this page.</p>
+    <a class="link" href="../index.html">Return to the Elmitech website ↗</a>
+    <p class="note">Website files and posts are stored in the separate <strong>Elmi-boop/ELMITECHSITE</strong> repository. The e-Ledger project is not part of this site.</p>
+  </main>
+  <div id="cms"></div>
+  <script>
+    fetch('./config.yml', {cache:'no-store'}).then(r=>r.ok?r.text():'').then(config=>{
+      const id=(config.match(/turbo_site_id:\s*([^\s#]+)/)||[])[1]||'';
+      if(id && id !== 'PENDING_SITE_ID'){
+        document.getElementById('setup').remove();
+        const script=document.createElement('script');
+        script.src='https://cdn.jsdelivr.net/npm/decap-cms@3.17.0-beta.0/dist/decap-cms.js';
+        script.onerror=()=>{document.getElementById('cms').textContent='The editor could not load. Refresh this page or contact Elmitech support.'};
+        document.body.appendChild(script);
+      }
+    }).catch(()=>{});
+  </script>
 </body>
 </html>
+
