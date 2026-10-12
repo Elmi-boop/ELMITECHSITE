@@ -97,7 +97,7 @@ function localAnswer(question, language, products = []) {
       'Salaan! Waxaan ahay Elmitech AI. Ii sheeg waxa aad laptop-ka u adeegsanayso, waxaanan kaa caawin doonaa inaad la barbar dhigto HP EliteBook-ka bogga ku qoran.'
     );
   }
-  if (/price|cost|how much is (?:the|this|it)|how much does (?:it|the laptop|this laptop) cost|bei|ghar|qiimo|immisa|ni kiasi gani/.test(q)) {
+  if (/price|cost|how much is (?:the|this|it)|how much does (?:it|the laptop|this laptop) cost|bei|ghar|qiimo|imisa|immisa|meeqa|ni kiasi gani/.test(q)) {
     const mentioned = products.find((item) => q.includes(String(item.name || '').toLowerCase()));
     const item = mentioned || (products.length === 1 ? products[0] : null);
     if (item?.price) {
