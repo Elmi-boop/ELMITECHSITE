@@ -1,0 +1,61 @@
+{
+  "products": [
+    {
+      "name": "HP EliteBook 840 G6",
+      "slug": "hp-elitebook-840-g6",
+      "featured": true,
+      "published": true,
+      "brand": "HP",
+      "category": "Laptop",
+      "condition": "Refurbished",
+      "price": "",
+      "priceLabel": "Ask us for today’s price",
+      "description": "A capable, lightweight laptop for work, study and creative projects.",
+      "descriptionSw": "",
+      "descriptionSo": "",
+      "images": ["assets/hp-elitebook-840-g6.jpg"],
+      "specifications": {
+        "processor": "Intel Core i7-8565U (8th gen, 4 cores / 8 threads, up to 4.6 GHz)",
+        "memory": "16GB DDR4 (2 SODIMM slots, upgradable up to 32GB)",
+        "storage": "512GB NVMe SSD (M.2, replaceable)",
+        "display": "14-inch Full HD IPS (1920 × 1080); touchscreen/privacy screen vary by unit",
+        "graphics": "Intel UHD 620 integrated graphics",
+        "weight": "About 1.5 kg",
+        "battery": "50Wh; roughly 8–10 hours of light use (varies by unit and usage)",
+        "ports": "2× USB-A 3.1, USB-C with Thunderbolt 3, HDMI, headphone/mic; SmartCard reader, SIM slot and docking connector vary by unit"
+      },
+      "warranty": "Refurbished: 6 months. Software coverage only; hardware is not covered.",
+      "status": "available",
+      "whatsappNumber": "254729111898"
+    },
+    {
+      "name": "HP EliteBook 840 G3",
+      "slug": "hp-elitebook-840-g3",
+      "featured": false,
+      "published": true,
+      "brand": "HP",
+      "category": "Laptop",
+      "condition": "Refurbished",
+      "price": "23000",
+      "priceLabel": "KSh 23,000 — confirm current price and availability on WhatsApp",
+      "description": "Ask Elmitech for current unit photos and confirmed specifications before ordering.",
+      "descriptionSw": "",
+      "descriptionSo": "",
+      "images": [],
+      "specifications": {
+        "processor": "",
+        "memory": "",
+        "storage": "",
+        "display": "",
+        "graphics": "",
+        "weight": "",
+        "battery": "",
+        "ports": ""
+      },
+      "warranty": "Refurbished: 6 months. Software coverage only; hardware is not covered.",
+      "status": "available",
+      "whatsappNumber": "254729111898"
+    }
+  ]
+}
+
