@@ -34,6 +34,7 @@
     }
     const copy = node('div', compact ? 'product-info' : 'catalog-copy');
     copy.append(node('div', compact ? 'product-kicker' : 'eyebrow', `${item.brand || 'ELMITECH'} · ${item.category || 'TECH'}${item.condition ? ` · ${item.condition}` : ''}`));
+    if (item.topic) copy.append(node('div', 'cms-topic-label', `Best for: ${item.topic}`));
     const title = node(compact ? 'h3' : 'h2', '', textFor(item, 'name')); copy.append(title);
     copy.append(node('p', compact ? 'product-summary' : '', textFor(item, 'description')));
     const spec = item.specifications || {};
@@ -55,13 +56,73 @@
     bottom.append(node('span', compact ? 'ask-price' : 'catalog-price', price));
     const ask = node('a', compact ? 'button button-dark' : 'button button-dark', compact ? 'Ask on WhatsApp ↗' : 'Ask on WhatsApp');
     ask.href = whatsapp(item.name); ask.target = '_blank'; ask.rel = 'noreferrer'; bottom.append(ask); copy.append(bottom);
-    if (!compact) {
-      const more = node('details', 'cms-more'); more.append(node('summary', '', 'More details'));
-      specEntries.slice(4).forEach(([label, value]) => { const p = node('p'); p.append(node('strong', '', `${label}: `), document.createTextNode(value)); more.append(p); });
-      if (item.warranty) more.append(node('p', '', `Warranty: ${item.warranty}`));
-      copy.append(more);
-    }
+    const moreLink = node('a', 'text-link cms-more-link', 'More about this laptop →');
+    moreLink.href = `/product.html?slug=${encodeURIComponent(item.slug || '')}`;
+    copy.append(moreLink);
     card.append(photo, copy); return card;
+  }
+
+  function renderProductDetail(item) {
+    const root = document.querySelector('.cms-product-detail');
+    if (!root || !item) return;
+    root.replaceChildren();
+    const images = (item.images || []).filter(Boolean);
+    const gallery = node('div', 'cms-product-gallery');
+    const mainImage = node('img', 'cms-product-main-image');
+    if (images.length) {
+      mainImage.src = imagePath(images[0]); mainImage.alt = `${item.name} photo`;
+      gallery.append(mainImage);
+      if (images.length > 1) {
+        const thumbs = node('div', 'cms-detail-thumbs');
+        images.forEach((path, index) => {
+          const button = node('button', 'cms-detail-thumb'); button.type = 'button';
+          const img = node('img'); img.src = imagePath(path); img.alt = `${item.name} photo ${index + 1}`;
+          button.append(img); button.addEventListener('click', () => { mainImage.src = imagePath(path); mainImage.alt = img.alt; });
+          thumbs.append(button);
+        });
+        gallery.append(thumbs);
+      }
+    } else {
+      gallery.append(node('div', 'cms-detail-empty', 'Laptop photos will be added soon.'));
+    }
+    const copy = node('div', 'cms-product-detail-copy');
+    copy.append(node('div', 'eyebrow', `${item.brand || 'ELMITECH'} · ${item.category || 'TECH'}${item.condition ? ` · ${item.condition}` : ''}`));
+    copy.append(node('h1', '', textFor(item, 'name')));
+    if (item.topic) copy.append(node('div', 'cms-topic-label', `Best for: ${item.topic}`));
+    copy.append(node('p', 'cms-product-lede', textFor(item, 'description')));
+    const longDescription = textFor(item, 'details');
+    if (longDescription) copy.append(node('p', 'cms-product-long-description', longDescription));
+    const specs = item.specifications || {};
+    const labels = { processor: 'Processor', memory: 'Memory', storage: 'Storage', display: 'Display', graphics: 'Graphics', weight: 'Weight', battery: 'Battery', ports: 'Ports' };
+    const grid = node('dl', 'cms-detail-specs');
+    Object.entries(labels).forEach(([key, label]) => {
+      if (!specs[key]) return;
+      const row = node('div'); row.append(node('dt', '', label), node('dd', '', specs[key])); grid.append(row);
+    });
+    if (grid.childElementCount) copy.append(grid);
+    if (item.warranty) copy.append(node('p', 'cms-detail-warranty', `Warranty: ${item.warranty}`));
+    const price = item.price ? `KSh ${Number(item.price).toLocaleString('en-KE')}` : (item.priceLabel || 'Ask us for today’s price');
+    copy.append(node('p', 'cms-detail-price', price));
+    const ask = node('a', 'button button-dark', 'Ask about this laptop on WhatsApp ↗');
+    ask.href = whatsapp(item.name); ask.target = '_blank'; ask.rel = 'noreferrer'; copy.append(ask);
+    root.append(gallery, copy);
+
+    const videoTarget = document.querySelector('.cms-related-video');
+    if (videoTarget && item.videoUrl) {
+      const id = getVideoId(item.videoUrl);
+      if (id) {
+        videoTarget.hidden = false;
+        videoTarget.replaceChildren(node('h2', '', 'Video about this laptop'));
+        const play = node('button', 'cms-detail-video-start'); play.type = 'button';
+        const thumb = node('img'); thumb.src = `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg`; thumb.alt = `Play video about ${item.name}`;
+        play.append(thumb, node('span', 'cms-play-icon', '▶'));
+        play.addEventListener('click', () => {
+          const frame = document.createElement('iframe'); frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`;
+          frame.title = `Video about ${item.name}`; frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'; frame.allowFullscreen = true; frame.loading = 'lazy'; play.replaceWith(frame);
+        }, { once: true });
+        videoTarget.append(play);
+      }
+    }
   }
 
   function articleCard(item) {
@@ -109,7 +170,7 @@
 
   function addStyles() {
     const style = document.createElement('style');
-    style.textContent = `.cms-product-actions{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:22px}.cms-product-actions .button{white-space:nowrap}.cms-warranty,.cms-more,.cms-article-expand{font-size:12px;color:#66697b}.cms-more,.cms-article-expand{margin-top:12px}.cms-more summary,.cms-article-expand summary{cursor:pointer;color:#293fe0}.cms-gallery-thumbs{display:flex;gap:7px;position:absolute;left:10px;right:10px;bottom:10px;overflow:auto}.cms-gallery-thumb{width:48px;height:42px;flex:0 0 auto;padding:2px;border:1px solid #ddd;background:white;cursor:pointer}.cms-gallery-thumb img{width:100%;height:100%;object-fit:cover}.cms-product-card .catalog-photo,.cms-product-card .product-image{position:relative}.cms-video-start{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;background:#171747;cursor:pointer;overflow:hidden;margin:18px 0}.cms-video-start img{width:100%;height:100%;object-fit:cover}.cms-play-icon{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;border-radius:50%;width:58px;height:58px;color:#fff;background:#293fe0;font-size:21px}.cms-video-card iframe{display:block;width:100%;aspect-ratio:16/9;border:0;margin:18px 0}.cms-article-cover{width:100%;max-height:220px;object-fit:cover;margin-bottom:18px}.cms-article-body{white-space:pre-line}.cms-video-card .text-link{display:inline-block;margin-top:14px}`;
+    style.textContent = `.cms-product-actions{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:22px}.cms-product-actions .button{white-space:nowrap}.cms-warranty,.cms-more,.cms-article-expand{font-size:12px;color:#66697b}.cms-more-link{display:inline-block;margin-top:14px;font-weight:700}.cms-topic-label{display:inline-block;margin:4px 0 12px;padding:6px 10px;border-radius:99px;background:#f4f1e7;color:#62511d;font-size:12px;font-weight:700}.cms-gallery-thumbs{display:flex;gap:7px;position:absolute;left:10px;right:10px;bottom:10px;overflow:auto}.cms-gallery-thumb{width:48px;height:42px;flex:0 0 auto;padding:2px;border:1px solid #ddd;background:white;cursor:pointer}.cms-gallery-thumb img{width:100%;height:100%;object-fit:cover}.cms-product-card .catalog-photo,.cms-product-card .product-image{position:relative}.cms-video-start,.cms-detail-video-start{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;background:#171747;cursor:pointer;overflow:hidden;margin:18px 0}.cms-video-start img,.cms-detail-video-start img{width:100%;height:100%;object-fit:cover}.cms-play-icon{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;border-radius:50%;width:58px;height:58px;color:#fff;background:#293fe0;font-size:21px}.cms-video-card iframe,.cms-related-video iframe{display:block;width:100%;aspect-ratio:16/9;border:0;margin:18px 0}.cms-article-cover{width:100%;max-height:220px;object-fit:cover;margin-bottom:18px}.cms-article-body{white-space:pre-line}.cms-video-card .text-link{display:inline-block;margin-top:14px}.cms-product-gallery{min-width:0}.cms-product-main-image{display:block;width:100%;max-height:620px;object-fit:contain;background:#f0efeb}.cms-detail-thumbs{display:flex;gap:8px;overflow:auto;padding-top:10px}.cms-detail-thumb{width:70px;height:58px;flex:none;padding:3px;border:1px solid #ddd;background:#fff;cursor:pointer}.cms-detail-thumb img{width:100%;height:100%;object-fit:cover}.cms-detail-empty{display:grid;place-items:center;min-height:350px;background:#f0efeb;color:#66697b}.cms-product-detail-copy h1{font:800 clamp(35px,4vw,52px)/1.05 var(--display);letter-spacing:-.055em;margin:12px 0}.cms-product-lede,.cms-product-long-description{font-size:16px;line-height:1.75;color:#555970;white-space:pre-line}.cms-detail-specs{display:grid;grid-template-columns:1fr 1fr;margin:24px 0;border-top:1px solid #e6e5df}.cms-detail-specs div{padding:14px 10px;border-bottom:1px solid #e6e5df}.cms-detail-specs dt{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#73758b}.cms-detail-specs dd{margin:4px 0 0;font-size:14px;line-height:1.5}.cms-detail-warranty{font-size:13px;color:#555970}.cms-detail-price{font:800 20px var(--display);margin:20px 0}.cms-related-video{max-width:800px;margin:55px auto 0}.cms-related-video[hidden]{display:none}.cms-related-video h2{font:750 28px var(--display)}.cms-related-video .cms-play-icon{pointer-events:none}`;
     document.head.append(style);
   }
 
@@ -126,6 +187,17 @@
       const articles = (articlesData.articles || []).filter(x => x.published);
       const videos = (videosData.videos || []).filter(x => x.published);
       addStyles();
+      if (location.pathname.endsWith('/product.html')) {
+        const slug = new URLSearchParams(location.search).get('slug');
+        const product = productsData.products?.find(x => x.slug === slug && x.published);
+        if (product) {
+          renderProductDetail(product);
+          document.title = `${textFor(product, 'name')} | Elmitech`;
+        } else {
+          const root = document.querySelector('.cms-product-detail');
+          if (root) root.textContent = 'This laptop listing is not available.';
+        }
+      }
       const catalog = document.querySelector('.catalog-grid');
       if (catalog && products.length) { catalog.replaceChildren(...products.map(x => productCard(x))); }
       const homeProduct = document.querySelector('.product-layout .product-card');
