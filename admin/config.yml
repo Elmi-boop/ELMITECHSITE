@@ -102,7 +102,7 @@ collections:
               - { label: Title (Somali), name: titleSo, widget: string, required: false }
               - { label: Platform, name: platform, widget: select, options: [YouTube, Instagram, TikTok] }
               - { label: Video or post link, name: url, widget: string }
-              - { label: Topic, name: topic, widget: select, options: [Laptop review, Laptop tips, Buying guide, Phone tips, Video editing, AI tools, Apps and software, Tech news, Other], default: Other }
+              - { label: Topic, name: topic, widget: select, options: [Laptop review, Laptop tips, Laptop buying guide, Buying guide, Phone tips, Computer performance, Video editing, AI tools, Apps and software, Tech news, Other], default: Other }
               - { label: Short description (English), name: summary, widget: text, required: false }
               - { label: Short description (Kiswahili), name: summarySw, widget: text, required: false }
               - { label: Short description (Somali), name: summarySo, widget: text, required: false }
