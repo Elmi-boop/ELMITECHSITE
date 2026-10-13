@@ -203,7 +203,7 @@
       const homeProduct = document.querySelector('.product-layout .product-card');
       const featured = products.find(x => x.featured) || products[0];
       if (homeProduct && featured) homeProduct.replaceWith(productCard(featured, true));
-      const guideGrid = location.pathname.endsWith('/guides.html') ? document.querySelector('.info-grid') : null;
+      const guideGrid = /\/guides(?:\.html)?\/?$/.test(location.pathname) ? document.querySelector('.info-grid') : null;
       if (guideGrid && articles.length) guideGrid.replaceChildren(...articles.map(articleCard));
       const videoGrid = document.querySelector('.video-page-grid');
       if (videoGrid && videos.length) videoGrid.replaceChildren(...videos.map(videoCard));
