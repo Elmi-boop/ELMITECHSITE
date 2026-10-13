@@ -28,11 +28,16 @@ collections:
               - { label: Brand, name: brand, widget: string, default: HP }
               - { label: Category, name: category, widget: select, options: [Laptop, Desktop, Monitor, Accessory, Other] }
               - { label: Condition, name: condition, widget: select, options: [Refurbished, New], default: Refurbished }
+              - { label: Best for, name: topic, widget: select, options: [Work and business, Study, Video editing and content creation, Everyday use, Gaming, Other], default: Everyday use }
               - { label: Price in KSh (digits only; leave empty to ask on WhatsApp), name: price, widget: string, required: false }
               - { label: Price message, name: priceLabel, widget: string, default: "Ask us for today’s price" }
               - { label: Description in English, name: description, widget: text }
               - { label: Description in Kiswahili, name: descriptionSw, widget: text, required: false }
               - { label: Description in Somali, name: descriptionSo, widget: text, required: false }
+              - { label: More about this laptop (full details shown after visitors click More about this laptop), name: details, widget: text, required: false }
+              - { label: More about this laptop (Kiswahili), name: detailsSw, widget: text, required: false }
+              - { label: More about this laptop (Somali), name: detailsSo, widget: text, required: false }
+              - { label: Related YouTube video link, name: videoUrl, widget: string, required: false }
               - label: Photos
                 name: images
                 widget: list
@@ -54,10 +59,10 @@ collections:
               - { label: Availability, name: status, widget: select, options: [available, sold, coming soon], default: available }
 
   - name: articles
-    label: Tech articles and buying guides
+    label: Guides & AI
     files:
       - name: articles_list
-        label: Articles and news
+        label: Guides, articles and tech news
         file: content/articles.json
         fields:
           - label: Articles
@@ -70,7 +75,7 @@ collections:
               - { label: Title (Somali), name: titleSo, widget: string, required: false }
               - { label: Short address name (lowercase, use dashes), name: slug, widget: string }
               - { label: Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
-              - { label: Category, name: category, widget: select, options: [Laptop buying guide, Laptop review, Tech news, Video editing, AI, Apps and software, Tech tips] }
+              - { label: Topic, name: category, widget: select, options: [Laptop buying guide, Laptop review, Tech news, Video editing, AI tools, Apps and software, Tech tips, Other] }
               - { label: Short summary (English), name: summary, widget: text }
               - { label: Short summary (Kiswahili), name: summarySw, widget: text, required: false }
               - { label: Short summary (Somali), name: summarySo, widget: text, required: false }
@@ -78,13 +83,13 @@ collections:
               - { label: Article text (English), name: body, widget: text }
               - { label: Article text (Kiswahili), name: bodySw, widget: text, required: false }
               - { label: Article text (Somali), name: bodySo, widget: text, required: false }
-              - { label: Publish on the site, name: published, widget: boolean, default: false }
+              - { label: Show on Guides & AI, name: published, widget: boolean, default: true }
 
   - name: videos
-    label: YouTube videos and social posts
+    label: Tech videos
     files:
       - name: video_list
-        label: Videos and posts
+        label: Videos to show on the Tech videos page
         file: content/videos.json
         fields:
           - label: Videos and posts
@@ -97,10 +102,10 @@ collections:
               - { label: Title (Somali), name: titleSo, widget: string, required: false }
               - { label: Platform, name: platform, widget: select, options: [YouTube, Instagram, TikTok] }
               - { label: Video or post link, name: url, widget: string }
-              - { label: Topic, name: topic, widget: string, required: false }
+              - { label: Topic, name: topic, widget: select, options: [Laptop review, Laptop tips, Buying guide, Phone tips, Video editing, AI tools, Apps and software, Tech news, Other], default: Other }
               - { label: Short description (English), name: summary, widget: text, required: false }
               - { label: Short description (Kiswahili), name: summarySw, widget: text, required: false }
               - { label: Short description (Somali), name: summarySo, widget: text, required: false }
               - { label: Thumbnail photo (optional), name: thumbnail, widget: image, required: false }
-              - { label: Publish on the site, name: published, widget: boolean, default: false }
+              - { label: Show on Tech videos page, name: published, widget: boolean, default: true }
 
