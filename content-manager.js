@@ -187,7 +187,7 @@
       const articles = (articlesData.articles || []).filter(x => x.published);
       const videos = (videosData.videos || []).filter(x => x.published);
       addStyles();
-      if (location.pathname.endsWith('/product.html')) {
+      if (document.querySelector('.cms-product-detail')) {
         const slug = new URLSearchParams(location.search).get('slug');
         const product = productsData.products?.find(x => x.slug === slug && x.published);
         if (product) {
