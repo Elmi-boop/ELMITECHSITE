@@ -118,6 +118,7 @@
         play.append(thumb, node('span', 'cms-play-icon', '▶'));
         play.addEventListener('click', () => {
           const frame = document.createElement('iframe'); frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`;
+        frame.referrerPolicy = 'strict-origin-when-cross-origin';
           frame.title = `Video about ${item.name}`; frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'; frame.allowFullscreen = true; frame.loading = 'lazy'; play.replaceWith(frame);
         }, { once: true });
         videoTarget.append(play);
@@ -159,6 +160,7 @@
       start.setAttribute('aria-label', `Play ${textFor(item, 'title')}`);
       start.addEventListener('click', () => {
         const frame = document.createElement('iframe'); frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`;
+        frame.referrerPolicy = 'strict-origin-when-cross-origin';
         frame.title = textFor(item, 'title'); frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'; frame.allowFullscreen = true; frame.loading = 'lazy';
         start.replaceWith(frame);
       }, { once: true });
