@@ -38,7 +38,7 @@ collections:
               - { label: More about this laptop (Kiswahili), name: detailsSw, widget: text, required: false }
               - { label: More about this laptop (Somali), name: detailsSo, widget: text, required: false }
               - { label: Related YouTube video link, name: videoUrl, widget: string, required: false }
-              - label: Photos
+              - label: Product photos (first photo appears in the laptop list; extra photos appear after customers open the laptop)
                 name: images
                 widget: list
                 required: false
