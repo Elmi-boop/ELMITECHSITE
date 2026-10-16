@@ -3,29 +3,20 @@
   const language = () => localStorage.getItem('elmitech-language') || document.documentElement.lang || 'en';
   const textFor = (item, field) => item[`${field}${language() === 'sw' ? 'Sw' : language() === 'so' ? 'So' : ''}`] || item[field] || '';
   const node = (tag, cls, text) => { const el = document.createElement(tag); if (cls) el.className = cls; if (text != null) el.textContent = text; return el; };
-  const imagePath = value => value ? (value.startsWith('/') || /^https?:/i.test(value) ? value : `/${value.replace(/^\.\//, '')}`) : '';
+  const imageValue = value => typeof value === 'string' ? value : value && (value.image || value.photo || value.url || value.src || value.path) || '';
+  const imagePath = value => { const path = imageValue(value); return path ? (path.startsWith('/') || /^https?:/i.test(path) ? path : `/${path.replace(/^\.\//, '')}`) : ''; };
+  const productImages = item => (Array.isArray(item.images) ? item.images : []).map(imageValue).filter(Boolean);
   const whatsapp = (name) => `https://wa.me/${WA}?text=${encodeURIComponent(`Hi Elmitech, I’m interested in the ${name}. Please confirm today’s price, availability, condition, photos and delivery cost.`)}`;
 
   function productCard(item, compact = false) {
     const card = node('article', compact ? 'product-card cms-product-card' : 'catalog-card cms-product-card');
     card.id = item.slug || '';
     const photo = node('div', compact ? 'product-image' : 'catalog-photo');
-    if (item.images?.length) {
+    const images = productImages(item);
+    if (images.length) {
       if (compact) { const badge = node('span', 'product-tag', 'FEATURED PICK'); photo.append(badge); }
-      const img = node('img'); img.src = imagePath(item.images[0]); img.alt = `${item.name} laptop`;
+      const img = node('img'); img.src = imagePath(images[0]); img.alt = `${item.name} laptop`;
       photo.append(img);
-      if (item.images.length > 1) {
-        const gallery = node('div', 'cms-gallery-thumbs');
-        item.images.forEach((path, index) => {
-          const thumb = node('button', 'cms-gallery-thumb'); thumb.type = 'button';
-          thumb.setAttribute('aria-label', `Show photo ${index + 1} of ${item.images.length}`);
-          const image = node('img'); image.src = imagePath(path); image.alt = `${item.name} photo ${index + 1}`;
-          thumb.append(image);
-          thumb.addEventListener('click', () => { img.src = imagePath(path); img.alt = image.alt; });
-          gallery.append(thumb);
-        });
-        photo.append(gallery);
-      }
     } else {
       photo.classList.add('catalog-photo-placeholder');
       const placeholder = node('div'); placeholder.append(node('span', '', 'ELMITECH FEATURED'), node('strong', '', item.name));
@@ -66,7 +57,7 @@
     const root = document.querySelector('.cms-product-detail');
     if (!root || !item) return;
     root.replaceChildren();
-    const images = (item.images || []).filter(Boolean);
+    const images = productImages(item);
     const gallery = node('div', 'cms-product-gallery');
     const mainImage = node('img', 'cms-product-main-image');
     if (images.length) {
